@@ -75,5 +75,14 @@ namespace SqlSugarAdapter
         {
             throw new NotImplementedException();
         }
+
+        public List<T> ToList<T>(Expression<Having<T, bool>> having)
+        {
+            having.Compile();
+            return db
+                .Queryable<T>()
+                .Having(having.Compile())
+                .ToList();
+        }
     }
 }
